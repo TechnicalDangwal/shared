@@ -3,9 +3,11 @@ declare class RabbitMQ {
     private connection;
     private channel;
     constructor();
-    connectRabbitMQ(url: string, consumerMap?: {
-        [key: string]: (data: any) => Promise<void>;
-    }): Promise<amqplib.Channel>;
+    connectRabbitMQ(url: string, consumerMap?: [{
+        queueName: string;
+        handler: (data: any) => Promise<void>;
+        type: 'pubsub' | 'queue';
+    }]): Promise<amqplib.Channel>;
     publish(queue: string, message: Record<string, any>): Promise<void>;
     consume(queue: string, handler: any): Promise<void>;
     publishFanout(exchange: string, message: any): Promise<void>;

@@ -12,7 +12,12 @@ class RabbitMQ {
         console.log("RabbitMQ connected");
         if (!consumerMap)
             return this.channel;
-        for (const [queueName, handler] of Object.entries(consumerMap)) {
+        for (let i = 0; i < consumerMap.length; i++) {
+            const { queueName, handler, type } = consumerMap[i];
+            if (type == 'pubsub') {
+                await this.subscribeFanout(queueName, handler);
+                continue;
+            }
             await this.consume(queueName, handler);
         }
         return this.channel;
