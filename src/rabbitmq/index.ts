@@ -8,7 +8,7 @@ class RabbitMQ {
         this.connection = null as any;
         this.channel = null as any;
     }
-    async connectRabbitMQ(url: string, consumerMap?: [{ queueName: string, handler: (data: any) => Promise<void>, type: 'pubsub' | 'queue' }]) {
+    async connectRabbitMQ(url: string, consumerMap?: { queueName: string, handler: (data: any) => Promise<void>, type: 'pubsub' | 'queue' }[]) {
         if (this.connection) return this.channel; // Avoid reconnecting
 
         this.connection = await amqplib.connect(url);
