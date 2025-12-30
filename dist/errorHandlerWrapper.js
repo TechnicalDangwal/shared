@@ -5,7 +5,7 @@ const asyncHandler = (fn) => (req, res, next) => {
 const globalErrorHandler = (err, req, res, next) => {
     console.error('Error:', err);
     const statusCode = err.statusCode || 500;
-    const status = err.status || 'error';
+    const status = err.status || false;
     const message = err.message || 'Something went wrong!';
     res.status(statusCode).json({
         statusCode,
